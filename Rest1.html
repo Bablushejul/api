@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body><div>
+    <form onsubmit="saveToLocalStorage(event)">
+        <label for="Price">Price</label></br></br>
+        <input type="number" name="Price" id="PriceInput"></br></br>
+        <label for="Product">Product</label></br></br>
+        <input type="text" name="Product" id="ProductInput"></br></br>
+        <select name="Catagory" id="CatagoryInput">
+            <option value="Electronics">Electronics</option>
+            <option value="Food">Food</option>
+            <option value="Items">Items</option>
+        </select></br></br>
+
+        <button type="submit">submit</button>
+    </form></div><div>
+    <label><h3>Electronics Items</h3></label>
+    <ul id="listofitem"></ul>
+    <label><h3>Food</h3></label>
+    <ul id="listofitem1"></ul>
+    <label><h3>Items</h3></label>
+    <ul id="listofitem2"></ul></div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.3.3/axios.min.js"></script>
+    <script>
+        async function saveToLocalStorage(event) {
+            try {
+                // console.log(event);
+                event.preventDefault();
+
+                const Price = event.target.Price.value;
+                const Product = event.target.Product.value;
+                const Catagory = event.target.Catagory.value;
+
+                const obj = { Price, Product, Catagory };
+
+                // localStorage.setItem(obj.Price, JSON.stringify(obj));
+
+                if (Catagory == "Electronics") {
+                    function showUserOnScreen(obj) {
+
+                        const parentElem = document.getElementById('listofitem');
+                        const chidElem = document.createElement('li');
+                        chidElem.textContent = obj.Price + '-' + obj.Product + '-' + obj.Catagory
+                        const deleteButton = document.createElement('input');
+                        deleteButton.type = "button"
+                        deleteButton.value = 'Delete'
+                        deleteButton.onclick = () => {
+                            localStorage.removeItem(obj.Price)
+                            parentElem.removeChild(chidElem)
+                        }
+                        chidElem.appendChild(deleteButton)
+                        parentElem.appendChild(chidElem)
+                    }
+
+                }
+                else if (Catagory == "Food") {
+                    function showUserOnScreen(obj) {
+
+                        const parentElem = document.getElementById('listofitem1');
+                        const chidElem = document.createElement('li');
+                        chidElem.textContent = obj.Price + '-' + obj.Product + '-' + obj.Catagory
+                        const deleteButton = document.createElement('input');
+                        deleteButton.type = "button"
+                        deleteButton.value = 'Delete'
+                        deleteButton.onclick = () => {
+                            localStorage.removeItem(obj.Price)
+                            parentElem.removeChild(chidElem)
+                        }
+                        chidElem.appendChild(deleteButton)
+                        parentElem.appendChild(chidElem)
+                    }
+
+                }
+                else {
+                    function showUserOnScreen(obj) {
+
+                        const parentElem = document.getElementById('listofitem2');
+                        const chidElem = document.createElement('li');
+                        chidElem.textContent = obj.Price + '-' + obj.Product + '-' + obj.Catagory
+                        const deleteButton = document.createElement('input');
+                        deleteButton.type = "button"
+                        deleteButton.value = 'Delete'
+                        deleteButton.onclick = () => {
+                            localStorage.removeItem(obj.Price)
+                            parentElem.removeChild(chidElem)
+                        }
+                        chidElem.appendChild(deleteButton)
+                        parentElem.appendChild(chidElem)
+                    }
+                }
+                const vi = await axios.post("https://crudcrud.com/api/9ed3660c67a54bbab15eb6d210fc3705/orderdetails", obj).then((respose) => {
+                
+
+                    showUserOnScreen(obj)
+
+                })
+
+
+            }
+            catch {
+                console.log("Prce is not added")
+            }
+
+
+        }
+    </script>
+</body>
+
+</html>
